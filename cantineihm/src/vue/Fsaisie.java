@@ -1,21 +1,30 @@
 package vue;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.GridBagLayout;
+import java.awt.Desktop.Action;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import javax.swing.JLabel;
 import java.awt.Insets;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JScrollPane;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import modele.LabelError;
+import modele.colconvives;
 
 public class Fsaisie<E> extends JFrame {
 
@@ -24,18 +33,38 @@ public class Fsaisie<E> extends JFrame {
 	 */
 	private static final long serialVersionUID = 5179585019775983838L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-
-
+	private JTextField entryNom;
+	private JTextField entryPrenom;
+	private JTextField entryAge;
+	private JTextField entryFeature;
+	private ctrlvue cv;
+	private LabelError errorNom;
+	private LabelError errorPrenom;
+	private LabelError errorAge;
+	private LabelError errorFeature;
+	private JButton btnQuitter;
+	private JComboBox<String> typeCombo;
+	private JList<String> listeConvives;
+	private JLabel lblCaracteristiques;
+	private JButton btnDetruire;
+	private JButton btnAfficher;
+	private JButton btnSupprimer;	
+	private DefaultListModel<String> dlm;
+	private JButton btnAjouter;
+	
 	/**
 	 * Create the frame.
 	 */
-	public Fsaisie() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+	public Fsaisie(ctrlvue _cv) {
+		this.cv = _cv;
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				Fsaisie.this.closeWindow();
+			}
+		});
+		setBounds(100, 100, 800, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -102,91 +131,95 @@ public class Fsaisie<E> extends JFrame {
 		gbc_lblAge.gridy = 0;
 		panel_1.add(lblAge, gbc_lblAge);
 		
-		JLabel lblCaracteristiques = new JLabel("Caracteristiques");
+		lblCaracteristiques = new JLabel("Formation");
 		GridBagConstraints gbc_lblCaracteristiques = new GridBagConstraints();
 		gbc_lblCaracteristiques.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCaracteristiques.gridx = 4;
 		gbc_lblCaracteristiques.gridy = 0;
 		panel_1.add(lblCaracteristiques, gbc_lblCaracteristiques);
 		
-		JComboBox comboBox = new JComboBox();
+		String[] liste_type = new String[] {colconvives.STAGIAIRE,
+                colconvives.STAGIAIRE_CIF,
+                colconvives.FORMATEUR,
+                colconvives.DIRECTEUR};
+		typeCombo = new JComboBox<String>(liste_type);
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 0;
 		gbc_comboBox.gridy = 1;
-		panel_1.add(comboBox, gbc_comboBox);
+		panel_1.add(typeCombo, gbc_comboBox);
 		
-		textField = new JTextField();
+		entryNom = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 1;
 		gbc_textField.gridy = 1;
-		panel_1.add(textField, gbc_textField);
-		textField.setColumns(10);
+		panel_1.add(entryNom, gbc_textField);
+		entryNom.setColumns(10);
 		
-		textField_1 = new JTextField();
+		entryPrenom = new JTextField();
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_1.gridx = 2;
 		gbc_textField_1.gridy = 1;
-		panel_1.add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		panel_1.add(entryPrenom, gbc_textField_1);
+		entryPrenom.setColumns(10);
 		
-		textField_2 = new JTextField();
+		entryAge = new JTextField();
 		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
 		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_2.gridx = 3;
 		gbc_textField_2.gridy = 1;
-		panel_1.add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
+		panel_1.add(entryAge, gbc_textField_2);
+		entryAge.setColumns(10);
 		
-		textField_3 = new JTextField();
+		entryFeature = new JTextField();
 		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
 		gbc_textField_3.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_3.gridx = 4;
 		gbc_textField_3.gridy = 1;
-		panel_1.add(textField_3, gbc_textField_3);
-		textField_3.setColumns(10);
+		panel_1.add(entryFeature, gbc_textField_3);
+		entryFeature.setColumns(10);
 		
-		JButton btnAjouter = new JButton("Ajouter");
+		btnAjouter = new JButton("Ajouter");
 		GridBagConstraints gbc_btnAjouter = new GridBagConstraints();
 		gbc_btnAjouter.insets = new Insets(0, 0, 5, 0);
 		gbc_btnAjouter.gridx = 5;
 		gbc_btnAjouter.gridy = 1;
 		panel_1.add(btnAjouter, gbc_btnAjouter);
 		
-		JLabel lblNewLabel = new JLabel("New label");
+		errorNom = new LabelError("erreur nom");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNewLabel.gridx = 1;
 		gbc_lblNewLabel.gridy = 2;
-		panel_1.add(lblNewLabel, gbc_lblNewLabel);
+		panel_1.add(errorNom, gbc_lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("New label");
+		errorPrenom = new LabelError("erreur prenom");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNewLabel_1.gridx = 2;
 		gbc_lblNewLabel_1.gridy = 2;
-		panel_1.add(lblNewLabel_1, gbc_lblNewLabel_1);
+		panel_1.add(errorPrenom, gbc_lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("New label");
+		errorAge = new LabelError("erreur age");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 		gbc_lblNewLabel_2.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNewLabel_2.gridx = 3;
 		gbc_lblNewLabel_2.gridy = 2;
-		panel_1.add(lblNewLabel_2, gbc_lblNewLabel_2);
+		panel_1.add(errorAge, gbc_lblNewLabel_2);
 		
-		JLabel lblNewLabel_3 = new JLabel("New label");
+		errorFeature = new LabelError("erreur caracteristique");
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
 		gbc_lblNewLabel_3.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNewLabel_3.gridx = 4;
 		gbc_lblNewLabel_3.gridy = 2;
-		panel_1.add(lblNewLabel_3, gbc_lblNewLabel_3);
+		panel_1.add(errorFeature, gbc_lblNewLabel_3);
 		
 		JPanel panel_2 = new JPanel();
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
@@ -209,8 +242,9 @@ public class Fsaisie<E> extends JFrame {
 		gbc_scrollPane.gridy = 3;
 		contentPane.add(scrollPane, gbc_scrollPane);
 		
-		JList<? extends E> list = new JList();
-		scrollPane.setViewportView(list);
+		this.dlm = new DefaultListModel<String>();
+		listeConvives = new JList<String>(this.dlm);
+		scrollPane.setViewportView(listeConvives);
 		
 		JPanel panel_3 = new JPanel();
 		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
@@ -221,17 +255,115 @@ public class Fsaisie<E> extends JFrame {
 		contentPane.add(panel_3, gbc_panel_3);
 		panel_3.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JButton btnAfficher = new JButton("Afficher");
+		btnAfficher = new JButton("Afficher");
 		panel_3.add(btnAfficher);
 		
-		JButton btnSupprimer = new JButton("Supprimer");
+		btnSupprimer = new JButton("Supprimer");
 		panel_3.add(btnSupprimer);
 		
-		JButton btnDetruire = new JButton("Detruire");
+		btnDetruire = new JButton("Detruire");
 		panel_3.add(btnDetruire);
 		
-		JButton btnQuitter = new JButton("Quitter");
+		btnQuitter = new JButton("Quitter");
 		panel_3.add(btnQuitter);
+		this.init();
+	}
+	
+	private void init() {
+		btnQuitter.addActionListener(e -> this.closeWindow());
+		typeCombo.addActionListener(e -> eventCombo(e));	      
+		btnDetruire.addActionListener(e -> Fsaisie.this.cv.Detruire());
+		btnAfficher.addActionListener(this::btnafficher);
+		btnSupprimer.addActionListener(this::supprimer);
+		btnAjouter.addActionListener(this::btnAjouter);
+		typeCombo.setSelectedIndex(0);
+	}
+	
+	private void eventCombo(ActionEvent e) {
+		if (e.getActionCommand() == "comboBoxChanged") {
+			String text = "";
+			switch (typeCombo.getSelectedIndex()) {
+			case 2:
+				text = "Ancienneté";
+				break;
+			case 3:
+				text = "Salaire";
+				break;
+			default:				
+				text = "Formation";
+				break;
+			}
+			lblCaracteristiques.setText(text);
+		}
+	}
+	
+	private void btnAjouter(ActionEvent e) {
+		this.cv.ajouterConvive(Fsaisie.this.entryNom.getText(),
+				Fsaisie.this.entryPrenom.getText(),
+				Fsaisie.this.entryAge.getText(),
+				Fsaisie.this.entryFeature.getText(),
+				Fsaisie.this.typeCombo.getSelectedIndex());
+	}
+	
+	private void supprimer(ActionEvent e) {
+		//on vérifie si au moins 1 item est sélectionnée
+		if (listeConvives.getSelectedIndex() > -1) {
+			Fsaisie.this.cv.fSaisieSupprimer(listeConvives.getSelectedIndices());
+//			for (int iterable_element : listeConvives.getSelectedIndicFsaisie.this.errorNomes()) {
+//				System.out.println(iterable_element);
+//			}
+		}
+	}
+	
+	private void btnafficher(ActionEvent e) {
+		this.cv.afficherFenHistorique();
+		this.cv.afficherFenCalcul();
+	}
+	
+	private void closeWindow(WindowEvent e) {
+		this.closeWindow();
+	}
+	
+	private void closeWindow() {
+		int choix = JOptionPane.showConfirmDialog(this, "Voulez-vous Quitter ?", "Quitter l'application", JOptionPane.YES_NO_OPTION);
+		if (choix == JOptionPane.YES_OPTION) {
+			Fsaisie.this.cv.Arreter();
+//			System.exit(0);
+		}		
+	}
+	
+	public void clearListeConvives() {
+		this.dlm.clear();
+	}
+	
+	public void addListeConvives(final String _c) {
+		this.dlm.addElement(_c);
+		this.entryNom.setText("");
+		this.entryPrenom.setText("");
+		this.entryAge.setText("");
+		this.entryFeature.setText("");
+	}
+	
+	public void setErrorNom(boolean _valid) {
+		this.errorNom.setError(_valid);
+	}
+	
+	public void setErrorPrenom(boolean _valid) {
+		this.errorPrenom.setError(_valid);
+	}
+	
+	public void setErrorAge(boolean _valid) {
+		this.errorAge.setError(_valid);
+	}
+	
+	public void setErrorCaracteristique(boolean _valid) {
+		this.errorFeature.setError(_valid);
 	}
 
+	public void resetAllError() {
+		this.setErrorNom(false);
+		this.setErrorPrenom(false);
+		this.setErrorAge(false);
+		this.setErrorCaracteristique(false);
+	}
 }

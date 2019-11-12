@@ -9,6 +9,10 @@ public class colconvives {
 	// **********
 	// Constantes
 	// **********
+	public static final String STAGIAIRE = "Stagiaire";
+	public static final String STAGIAIRE_CIF = "Stagiaire Cif";
+	public static final String FORMATEUR = "Formateur";
+	public static final String DIRECTEUR = "Directeur";
 	
 	private static final String NOMDEF = "LES CONVIVES";
 	
@@ -70,72 +74,103 @@ public class colconvives {
 	// Chaque méthode retourne l'objet qui a été instancié
 	// et mémorisé, afin qu'il soit valorisé.
 	
-	public stagiaire AjouterStagiaire() {
+//	public stagiaire AjouterStagiaire() {
+//		stagiaire c;
+//		c = new stagiaire();
+//		this._lc.add(c);
+//		return (c);
+//	}
+	
+	public stagiaire ajouterStagiaire(final String _nom, final String _prenom, final int _age, final String _feature) {
 		stagiaire c;
-		c = new stagiaire();
+		c = new stagiaire(_nom, _prenom, _age);
 		this._lc.add(c);
-		return (c);
+		c.setFormation(_feature);
+		return (c);	
 	}
 	
-	public stagiaireCif AjouterStagiaireCif() {
+//	public stagiaireCif AjouterStagiaireCif() {
+//		stagiaireCif c;
+//		c = new stagiaireCif();
+//		this._lc.add(c);
+//		return (c);
+//	}
+	
+	public stagiaireCif ajouterStagiaireCif(final String _nom, final String _prenom, final int _age, final String _formation) {
 		stagiaireCif c;
-		c = new stagiaireCif();
+		c = new stagiaireCif(_nom, _prenom, _age);
+		c.setFormation(_formation);
 		this._lc.add(c);
 		return (c);
 	}
 	
-	public formateur AjouterFormateur() {
+//	public formateur AjouterFormateur() {
+//		formateur c;
+//		c = new formateur();
+//		this._lc.add(c);
+//		return (c);
+//	}
+//	
+//	public directeur AjouterDirecteur() {
+//		directeur c;
+//		c = new directeur();
+//		this._lc.add(c);
+//		return (c);
+//	}
+	public formateur ajouterFormateur(final String _nom, final String _prenom, final int _age, final String _anciennete) {
 		formateur c;
-		c = new formateur();
+		c = new formateur(_nom, _prenom, _age);
+		c.setNbannees(_anciennete);
 		this._lc.add(c);
 		return (c);
 	}
 	
-	public directeur AjouterDirecteur() {
+	public directeur ajouterDirecteur(final String _nom, final String _prenom, final int _age, final String _salaire) {
 		directeur c;
-		c = new directeur();
+		c = new directeur(_nom, _prenom, _age);
+		c.setSalaire(_salaire);
 		this._lc.add(c);
 		return (c);
 	}
 	
 	// l contient la liste des objets à ajouter
-	public void Ajouter(final ArrayList<convive> l) {
-		// ERREUR MONUMENTALE
-		// CAR ON A AFAIRE A UN COLLECTIONNEUR
-		// DE TYPE COMPOSITION !!!
-		/*
-		int i;
-		for (i=0;i<l.size();i++)
-			this._lc.add(l.get(i));
-		*/
-		int i;
-		convive c;
-		
-		// parcours de la liste des objets à ajouter
-		for (i=0;i<l.size();i++) {
-			c = l.get(i);
-			if (c.getType()==formateur.getTypeClasse()) {
-				this.AjouterFormateur().Copier(c);
-			}
-			if (c.getType()==directeur.getTypeClasse()) {
-				this.AjouterDirecteur().Copier(c);
-			}
-			if (c.getType()==stagiaire.getTypeClasse()) {
-				this.AjouterStagiaire().Copier(c);
-			}
-			if (c.getType()==stagiaireCif.getTypeClasse()) {
-				this.AjouterStagiaireCif().Copier(c);
-			}
-		}		
-	}
+//	public void Ajouter(final ArrayList<convive> l) {
+//		// ERREUR MONUMENTALE
+//		// CAR ON A AFAIRE A UN COLLECTIONNEUR
+//		// DE TYPE COMPOSITION !!!
+//		/*
+//		int i;
+//		for (i=0;i<l.size();i++)
+//			this._lc.add(l.get(i));
+//		*/
+//		int i;
+//		convive c;
+//		
+//		// parcours de la liste des objets à ajouter
+//		for (i=0;i<l.size();i++) {
+//			c = l.get(i);
+//			if (c.getType()==formateur.getTypeClasse()) {
+//				this.AjouterFormateur().Copier(c);
+//			}
+//			if (c.getType()==directeur.getTypeClasse()) {
+//				this.AjouterDirecteur().Copier(c);
+//			}
+//			if (c.getType()==stagiaire.getTypeClasse()) {
+//				this.AjouterStagiaire().Copier(c);
+//			}
+//			if (c.getType()==stagiaireCif.getTypeClasse()) {
+//				this.AjouterStagiaireCif().Copier(c);
+//			}
+//		}		
+//	}
 	
 	// concatenation de collectionneurs
 	// this = this+src
-	public void Ajouter(final colconvives src) {
-		ArrayList<convive> l;
-		l = new ArrayList<convive>(src._lc);
-		this.Ajouter(l);
-	}
+//	public void Ajouter(final colconvives src) {
+//		ArrayList<convive> l;
+//		l = new ArrayList<convive>(src._lc);
+//		this.Ajouter(l);
+//	}
 	
 	// *** ACCES ***
 	
@@ -185,7 +220,7 @@ public class colconvives {
 		return (ok);
 	}
 	
-	public void Supprimer() {
+	public void SupprimerAll() {
 		this._lc.clear();
 	}
 	

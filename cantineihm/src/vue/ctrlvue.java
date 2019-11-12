@@ -1,11 +1,10 @@
 package vue;
 
-import java.util.ArrayList;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import controleur.ctrl;
+import modele.colconvives;
 
 public class ctrlvue {
 	private enum EPOSITION{
@@ -20,6 +19,19 @@ public class ctrlvue {
 	private Faffichage _fh;
 	
 	private ctrl _c;
+	
+	public ctrlvue(ctrl c) {
+		this._c = c;
+		
+		this._fs = new Fsaisie(this);
+		this._fc = new Fcalcul(this);
+		this._fh = new Faffichage();
+		//this._fa.setTitle("Affichage des personnes");
+		this._fh.setTitle("Historique des erreurs");
+		
+		this.Repositionner();
+		this.Demarrer();
+	}
 	
 	private static void Positionner(
 			JFrame f,
@@ -65,18 +77,6 @@ public class ctrlvue {
 		Positionner(this._fh,this._fs, EPOSITION.ADROITE);			
 	}
 	
-	public ctrlvue(ctrl c) {
-		this._c = c;
-		
-		this._fs = new Fsaisie(this);
-		this._fc = new Fcalcul(this);
-		this._fh = new Faffichage();
-		//this._fa.setTitle("Affichage des personnes");
-		this._fh.setTitle("Historique des erreurs");
-		
-		this.Repositionner();
-	}
-	
 	public void Demarrer() {
 		this._fs.setVisible(true);
 		this._fc.setVisible(true);
@@ -115,50 +115,14 @@ public class ctrlvue {
 		this._fh.dispose();
 	}
 	
-	public void AfficherFenHistorique() {
+	public void afficherFenHistorique() {
 		this._fh.setVisible(true);	
 	}
-
-	public void AfficherFenAffichage() {
-		this._fa.setVisible(true);			
+	
+	public void afficherFenCalcul() {
+		this._fc.setVisible(true);
 	}
 	
-	public static String[] getNoms() {
-		return(ctrl.getNoms());
-	}
-	
-	public static String[] getAges() {
-		return (ctrl.getAges());
-	}
-	
-	public static String[] getSalaires() {
-		return (ctrl.getSalaires());
-	}
-	
-	public static String getUnNom() {
-		return (ctrl.getUnNom());
-	}
-	
-	public static String getUnAge() {
-		return (ctrl.getUnAge());
-	}
-	
-	public static String getUnSalaire() {
-		return (ctrl.getUnSalaire());
-	}
-
-	public static String getAideNom() {
-		return (ctrl.getAideNom());
-	}
-
-	public static String getAideAge() {
-		return (ctrl.getAideAge());
-	}
-
-	public static String getAideSalaire() {
-		return (ctrl.getAideSalaire());
-	}
-
 	public boolean Verifier(
 			String n, 
 			String a, 
@@ -168,9 +132,9 @@ public class ctrlvue {
 			String[] errsal) {
 		boolean ok;
 		
-		errn[0] = ctrl.VerifierNom(n);
-		erra[0] = ctrl.VerifierAge(a);
-		errsal[0] = ctrl.VerifierSalaire(sal);
+//		errn[0] = ctrl.VerifierNom(n);
+//		erra[0] = ctrl.VerifierAge(a);
+//		errsal[0] = ctrl.VerifierSalaire(sal);
 		
 		ok =
 			(errn[0].equals(""))&&
@@ -187,39 +151,57 @@ public class ctrlvue {
 			this._fh.Ajouter(errsal[0]);
 		
 		if (ok == false)
-			this.AfficherFenHistorique();
+			this.afficherFenHistorique();
 		
 		return (ok);
 	}
 
 
-	private void AfficherPersonnes() {
-		ArrayList<Object> lo;
-		String snb;
-		
-		lo = this._c.getPersonnes();
-		this._fa.Ajouter(lo);
-		this.AfficherFenAffichage();
-		
-		snb = this._c.getNbPersonnes();
-		this._fs.AfficherNbPersonnes(snb);
-		this._fc.AfficherNbPersonnes(snb);
+	public void fSaisieSupprimer(int[] selectIndices) {
+		this._c.supprimer(selectIndices);
 	}
 	
-	public void AjouterPersonne(
-			String n, 
-			String a, 
-			String sal) {
-		this._c.Ajouter(n,a,sal);
-		this.AfficherPersonnes();
+//	public void afficherConvives(final String[] lc) {
+//		String snb;
+//		this._fs.clearListeConvives();
+//		for (Object item : lc) {
+//			snb = item.toString();
+//			this._fs.addListeConvives(snb);
+//		}
+//	}
+	
+	public void destroyAllItem() {
+		this._fs.clearListeConvives();
 	}
-
+	
+	public void ajouterConvive(final String _nom, final String _prenom, final String _age, final String _feature, final int _type) {
+		boolean validNom = this._c.checkNom(_nom);
+		boolean validPrenom = this._c.checkPrenom(_prenom);
+		boolean validAge = this._c.checkAge(_age);
+		boolean validFeature =  this._c.checkFeature(_feature, _type);	
+		if (validNom & validPrenom & validAge & validFeature) {
+			this._c.ajouterConvive(_nom, _prenom, _age, _feature, _type);
+		}
+		if(!validNom) {
+			this._fs.setErrorNom(!validNom);
+			
+		}
+		
+		this._fs.setErrorPrenom(!validPrenom);
+		this._fs.setErrorAge(!validAge);
+		this._fs.setErrorCaracteristique(!validFeature);
+	}
+	
+	public void addListeConvive(final String _c) {
+		this._fs.addListeConvives(_c);
+	}
+	
 	public void Detruire() {
 		if (Questionner(
 				"Voulez vous détruire les enregistrements")
 				== true) {
-			this._c.Detruire();
-			this.AfficherPersonnes();
+			this._c.detruire();
+			this._fs.clearListeConvives();
 		}
 		
 	}
