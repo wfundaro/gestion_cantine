@@ -1,31 +1,28 @@
 package vue;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.GridLayout;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JScrollPane;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Font;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 public class Fcalcul extends JFrame {
 
@@ -40,26 +37,25 @@ public class Fcalcul extends JFrame {
 	private JTextField TxtPb;
 	private DefaultListModel<Object> _lc;
 	private JLabel LabErr;
-
+	private JList<Object> LstAffichage;
 	private void CBFermer() {
 		this.setVisible(false);
 	}
 	
 	private void CBValider() {
-		
 		boolean ok;
 		String pb;
 		String serr;
 		String[] errpb = new String[1];
 
-
+		this._lc.clear();
 		// recupération des données
 		pb = this.TxtPb.getText();
 
 		
 		// vérification
-		ok = this._cv.Verifier(
-				pb
+		ok = this._cv.VerifierPb(
+				pb,
 				errpb);
 		
 		// traiter les messages d'erreur
@@ -71,10 +67,8 @@ public class Fcalcul extends JFrame {
 
 		// mémorisation
 		if (ok == true) {
-			this._cv.AfficherPrix(
-					pb);
+			this._lc.addElement( ctrlvue.AfficherPrix(pb) );
 		}				
-		
 		
 	}
 	
@@ -223,8 +217,10 @@ public class Fcalcul extends JFrame {
 		gbc_ScPanAffichage.gridy = 2;
 		contentPane.add(ScPanAffichage, gbc_ScPanAffichage);
 		
-		JList<Object> LstAffichage = new JList<Object>();
+		LstAffichage = new JList<Object>();
 		LstAffichage.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		_lc = new DefaultListModel<Object>();
+		LstAffichage.setModel(_lc);
 		ScPanAffichage.setViewportView(LstAffichage);
 		
 		JPanel panel_3 = new JPanel();

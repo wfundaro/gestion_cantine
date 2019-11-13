@@ -89,6 +89,21 @@ public class ctrl {
 	private static colconvives cd;
 	private static colconvives cf;
 	
+	// Dialogue avec la VUE au travers du controleur de vue
+	private ctrlvue _cv;
+	
+	// Dialogue avec le MODELE au travers du collectionneur de personnes
+	private colconvives _cp;
+	
+	public ctrl(){
+		this._cv = new ctrlvue(this);
+		this._cp = new colconvives("LES CONVIVES");
+	}
+	
+	public void Demarrer() {
+		this._cv.Demarrer();
+	}
+	
 	// méthode de classe privée permettant
 	// d'obtenir une valeur entière aléatoire 
 	// comprise entre 2 bornes
@@ -183,6 +198,25 @@ public class ctrl {
 				"x",
 				"Quitter",
 				ACT_QUITTER);
+	}
+	
+	public static String getAidePb() {
+		return (convive.AidePrixBase());
+	}
+	
+	public static String VerifierPb(String pb) {
+		boolean ok;
+		String serr;
+		int[] err = new int[1];
+		
+		serr = "";
+		ok = convive.VerifierPrixBase(pb, err);
+		if (ok == false) {
+			serr = 
+				"Prix de base incorrect -> "+
+				convive.DecoderErreur(err[0]);
+		}
+		return (serr);
 	}
 	
 	private static String SaisirNom() {
@@ -503,6 +537,50 @@ public class ctrl {
 				cc.Supprimer();
 		}
 	}
+	
+	
+	public static String AfficherPrix(String pb) {
+		String p, r;
+		int i;
+		int nb;
+		
+		r ="";
+		if (cc.getNbConvives()>0) {
+			nb = cc.getNbConvives();
+			for (i=0;i<nb;i++) {
+				p = cc.CalculerPrix(i, pb);
+				if (p!=null) {
+					r =
+						""+cc.getConvive(i)+
+						"\n\t"+
+						"Prix de base: "+
+						pb+
+						" -> Prix: "+
+						p;
+				}
+			}
+		}
+		return (r);
+	}
+	
+	public ArrayList<Object> getConvives(){
+		ArrayList<Object> lc;
+		int nb;
+		convive c;
+		int i;
+		
+		lc = new ArrayList<Object>();
+		nb = this._cp.getNbConvives();
+		for (i=0;i<nb;i++) {
+			c = this._cp.getConvive(i);
+			if (c!= null) {
+				lc.add(c);
+			}
+		}
+		return (lc);
+	}
+	
+	
 	
 	private static void Calculer() {
 		String pb,p;

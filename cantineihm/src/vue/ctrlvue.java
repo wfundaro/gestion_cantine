@@ -71,7 +71,7 @@ public class ctrlvue {
 		this._fs = new Fsaisie(this);
 		this._fc = new Fcalcul(this);
 		this._fh = new Faffichage();
-		//this._fa.setTitle("Affichage des personnes");
+		this._fc.setTitle("Fenêtre des calcul");
 		this._fh.setTitle("Historique des erreurs");
 		
 		this.Repositionner();
@@ -118,11 +118,12 @@ public class ctrlvue {
 	public void AfficherFenHistorique() {
 		this._fh.setVisible(true);	
 	}
-
-	public void AfficherFenAffichage() {
-		this._fa.setVisible(true);			
+	
+	public void AfficherFenCalcul() {
+		this._fc.setVisible(true);			
 	}
 	
+	/*
 	public static String[] getNoms() {
 		return(ctrl.getNoms());
 	}
@@ -158,40 +159,50 @@ public class ctrlvue {
 	public static String getAideSalaire() {
 		return (ctrl.getAideSalaire());
 	}
+	*/
+	public static String getAidePb() {
+		return (ctrl.getAidePb());
+	}
 
-	public boolean Verifier(
-			String n, 
-			String a, 
-			String sal, 
-			String[] errn, 
-			String[] erra, 
-			String[] errsal) {
+	public static String AfficherPrix(String pb) {
+		return (ctrl.AfficherPrix(pb));
+		
+	}
+
+	public boolean VerifierPb(
+			String pb,  
+			String[] errpb) {
 		boolean ok;
 		
-		errn[0] = ctrl.VerifierNom(n);
-		erra[0] = ctrl.VerifierAge(a);
-		errsal[0] = ctrl.VerifierSalaire(sal);
+		errpb[0] = ctrl.VerifierPb(pb);
 		
 		ok =
-			(errn[0].equals(""))&&
-			(erra[0].equals(""))&&
-			(errsal[0].equals(""));
+			(errpb[0].equals(""));
 		
-		if (!errn[0].equals(""))
-			this._fh.Ajouter(errn[0]);
-		
-		if (!erra[0].equals(""))
-			this._fh.Ajouter(erra[0]);
-		
-		if (!errsal[0].equals(""))
-			this._fh.Ajouter(errsal[0]);
+		if (!errpb[0].equals(""))
+			this._fh.Ajouter(errpb[0]);
 		
 		if (ok == false)
 			this.AfficherFenHistorique();
 		
 		return (ok);
 	}
+	
 
+
+
+	private void AfficherCalculs() {
+		ArrayList<Object> lc;
+		String snb;
+		
+		lc = this._c.getConvives();
+		this._fc.Ajouter(lc);
+		this.AfficherFenCalcul();
+		
+		snb = this._c.getNbPersonnes();
+		this._fs.AfficherNbPersonnes(snb);
+		this._fc.AfficherNbPersonnes(snb);
+	}
 
 	private void AfficherPersonnes() {
 		ArrayList<Object> lo;
@@ -223,4 +234,6 @@ public class ctrlvue {
 		}
 		
 	}
+
+
 }
