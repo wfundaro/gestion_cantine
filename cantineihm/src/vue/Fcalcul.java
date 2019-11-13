@@ -2,6 +2,7 @@ package vue;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -24,6 +25,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import modele.LabelError;
+
 public class Fcalcul extends JFrame {
 
 	/**
@@ -36,7 +39,7 @@ public class Fcalcul extends JFrame {
 	private JPanel contentPane;
 	private JTextField TxtPb;
 	private DefaultListModel<Object> _lc;
-	private JLabel LabErr;
+	private LabelError LabErr;
 	private JList<Object> LstAffichage;
 	private void CBFermer() {
 		this.setVisible(false);
@@ -60,11 +63,13 @@ public class Fcalcul extends JFrame {
 		
 		// traiter les messages d'erreur
 		serr = errpb[0];
-		if (!serr.equals(""))
+		if (!serr.equals("")) {
 			Fcalcul.this.LabErr.setText(serr);
-		else
+			Fcalcul.this.LabErr.setError(true);
+		} else {
 			Fcalcul.this.LabErr.setText("");
-
+			Fcalcul.this.LabErr.setError(false);
+		}
 		// mémorisation
 		if (ok == true) {
 			String[] calc =  this._cv.AfficherPrix(pb).split("\n");
@@ -74,6 +79,10 @@ public class Fcalcul extends JFrame {
 			//this._lc.addElement( this._cv.AfficherPrix(pb) );
 		}				
 		
+	}
+	
+	public void clearAffichage() {
+		this._lc.clear();
 	}
 	
 	private void InitialiserIhm() {
@@ -131,16 +140,18 @@ public class Fcalcul extends JFrame {
 		GridBagConstraints gbc_lblPb = new GridBagConstraints();
 		gbc_lblPb.anchor = GridBagConstraints.NORTH;
 		gbc_lblPb.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblPb.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPb.insets = new Insets(2, 10, 0, 0);
 		gbc_lblPb.gridx = 0;
 		gbc_lblPb.gridy = 0;
 		panel.add(lblPb, gbc_lblPb);
 		
 		TxtPb = new JTextField();
+		TxtPb.setPreferredSize(new Dimension(300, 20));
+		TxtPb.setSize(new Dimension(300, 0));
 		GridBagConstraints gbc_TxtPb = new GridBagConstraints();
+		gbc_TxtPb.weightx = 0.7;
 		gbc_TxtPb.anchor = GridBagConstraints.NORTH;
 		gbc_TxtPb.fill = GridBagConstraints.HORIZONTAL;
-		gbc_TxtPb.insets = new Insets(0, 0, 5, 5);
 		gbc_TxtPb.gridx = 1;
 		gbc_TxtPb.gridy = 0;
 		panel.add(TxtPb, gbc_TxtPb);
@@ -150,7 +161,6 @@ public class Fcalcul extends JFrame {
 		GridBagConstraints gbc_horizontalGlue = new GridBagConstraints();
 		gbc_horizontalGlue.anchor = GridBagConstraints.NORTH;
 		gbc_horizontalGlue.fill = GridBagConstraints.HORIZONTAL;
-		gbc_horizontalGlue.insets = new Insets(0, 0, 5, 5);
 		gbc_horizontalGlue.gridx = 2;
 		gbc_horizontalGlue.gridy = 0;
 		panel.add(horizontalGlue, gbc_horizontalGlue);
@@ -165,7 +175,7 @@ public class Fcalcul extends JFrame {
 		});
 		GridBagConstraints gbc_btnValider = new GridBagConstraints();
 		gbc_btnValider.anchor = GridBagConstraints.NORTH;
-		gbc_btnValider.insets = new Insets(0, 0, 5, 0);
+		gbc_btnValider.insets = new Insets(0, 0, 5, 10);
 		gbc_btnValider.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnValider.gridx = 3;
 		gbc_btnValider.gridy = 0;
@@ -178,7 +188,7 @@ public class Fcalcul extends JFrame {
 		gbc_horizontalGlue_4.gridy = 1;
 		panel.add(horizontalGlue_4, gbc_horizontalGlue_4);
 		
-		LabErr = new JLabel("");
+		LabErr = new LabelError("");
 		LabErr.setFont(new Font("Tahoma", Font.BOLD, 14));
 		LabErr.setForeground(Color.RED);
 		GridBagConstraints gbc_LabErr = new GridBagConstraints();

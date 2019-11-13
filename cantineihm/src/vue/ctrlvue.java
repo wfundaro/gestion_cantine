@@ -122,6 +122,7 @@ public class ctrlvue {
 
 	public void fSaisieSupprimer(int[] selectIndices) {
 		this._c.supprimer(selectIndices);
+		this._fc.clearAffichage();
 	}
 
 	public void destroyAllItem() {
@@ -146,6 +147,7 @@ public class ctrlvue {
 		this._fs.setErrorPrenom(!validPrenom);
 		this._fs.setErrorAge(!validAge);
 		this._fs.setErrorCaracteristique(!validFeature);
+		this._fc.clearAffichage();
 	}
 
 	public void ajouterLigneToHistorique(final String _st) {
@@ -189,6 +191,7 @@ public class ctrlvue {
 				== true) {
 			this._c.detruire();
 			this._fs.clearListeConvives();
+			this._fc.clearAffichage();
 		}
 
 	}

@@ -45,6 +45,7 @@ public class ctrl {
 	
 	public void detruire() {
 		colC.SupprimerAll();
+		this._cv.updateNbListeConviveToFsaisie(colC.getNbConvives());
 	}
 		
 	public void ajouterConvive(final String _nom, final String _prenom, final String _age, final String _feature, final int _type) {
@@ -75,7 +76,6 @@ public class ctrl {
 		for(int i=0; i < this.colC.getNbConvives(); i++) {
 			this.ajouterConviveToVue(i);
 		}
-		this._cv.updateNbListeConviveToFsaisie(colC.getNbConvives());
 	}
 	
 	public void supprimer(int[] selectIndices) {
