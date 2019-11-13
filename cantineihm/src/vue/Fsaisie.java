@@ -1,14 +1,11 @@
 package vue;
 
-import java.awt.Desktop.Action;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -27,8 +24,9 @@ import javax.swing.border.EmptyBorder;
 
 import modele.LabelError;
 import modele.colconvives;
+import java.awt.Color;
 
-public class Fsaisie<E> extends JFrame {
+public class Fsaisie extends JFrame {
 
 	/**
 	 * 
@@ -45,7 +43,7 @@ public class Fsaisie<E> extends JFrame {
 	private LabelError errorAge;
 	private LabelError errorFeature;
 	private JButton btnQuitter;
-	private JComboBox<String> typeCombo;
+	private JComboBox<Object> typeCombo;
 	private JList<String> listeConvives;
 	private JLabel lblCaracteristiques;
 	private JButton btnDetruire;
@@ -53,11 +51,15 @@ public class Fsaisie<E> extends JFrame {
 	private JButton btnSupprimer;	
 	private DefaultListModel<String> dlm;
 	private JButton btnAjouter;
-	
+	private JLabel lblListConvives;
+	private final String[] tootlipFeature = {"Entrez une formation entre 1 et 10 caractères",
+			"Entrez l'ancienneté entre 1 et 42",
+			"Entrez le salaire supérieur à 0.0"};
 	/**
 	 * Create the frame.
 	 */
 	public Fsaisie(ctrlvue _cv) {
+		super("Fenêtre de saisie");
 		this.cv = _cv;
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(new WindowAdapter() {
@@ -144,7 +146,7 @@ public class Fsaisie<E> extends JFrame {
                 colconvives.STAGIAIRE_CIF,
                 colconvives.FORMATEUR,
                 colconvives.DIRECTEUR};
-		typeCombo = new JComboBox<String>(liste_type);
+		typeCombo = new JComboBox<Object>(liste_type);
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -153,6 +155,7 @@ public class Fsaisie<E> extends JFrame {
 		panel_1.add(typeCombo, gbc_comboBox);
 		
 		entryNom = new JTextField();
+		entryNom.setToolTipText("Entrez un nom compris entre 1 et 20 caract\u00E8res");
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -162,6 +165,7 @@ public class Fsaisie<E> extends JFrame {
 		entryNom.setColumns(10);
 		
 		entryPrenom = new JTextField();
+		entryPrenom.setToolTipText("Entrez un pr\u00E9nom entre 1 et 15 caract\u00E8res");
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
@@ -171,6 +175,7 @@ public class Fsaisie<E> extends JFrame {
 		entryPrenom.setColumns(10);
 		
 		entryAge = new JTextField();
+		entryAge.setToolTipText("Age doit \u00EAtre compris entre 18 et 67");
 		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
 		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
@@ -202,28 +207,28 @@ public class Fsaisie<E> extends JFrame {
 		gbc_verticalStrut.gridy = 1;
 		contentPane.add(verticalStrut, gbc_verticalStrut);
 		
-		errorNom = new LabelError("erreur nom");
+		errorNom = new LabelError("Erreur nom");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNewLabel.gridx = 1;
 		gbc_lblNewLabel.gridy = 2;
 		panel_1.add(errorNom, gbc_lblNewLabel);
 		
-		errorPrenom = new LabelError("erreur prenom");
+		errorPrenom = new LabelError("Erreur prenom");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNewLabel_1.gridx = 2;
 		gbc_lblNewLabel_1.gridy = 2;
 		panel_1.add(errorPrenom, gbc_lblNewLabel_1);
 		
-		errorAge = new LabelError("erreur age");
+		errorAge = new LabelError("Erreur age");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 		gbc_lblNewLabel_2.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNewLabel_2.gridx = 3;
 		gbc_lblNewLabel_2.gridy = 2;
 		panel_1.add(errorAge, gbc_lblNewLabel_2);
 		
-		errorFeature = new LabelError("erreur caracteristique");
+		errorFeature = new LabelError("Erreur caracteristique");
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
 		gbc_lblNewLabel_3.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNewLabel_3.gridx = 4;
@@ -240,7 +245,7 @@ public class Fsaisie<E> extends JFrame {
 		contentPane.add(panel_2, gbc_panel_2);
 		panel_2.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JLabel lblListConvives = new JLabel("Liste des convives :");
+		lblListConvives = new JLabel("Liste des convives :   0 convive");
 		panel_2.add(lblListConvives);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -265,15 +270,20 @@ public class Fsaisie<E> extends JFrame {
 		panel_3.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		btnAfficher = new JButton("Afficher");
+		btnAfficher.setBackground(Color.GREEN);
+		btnAfficher.setForeground(Color.BLACK);
 		panel_3.add(btnAfficher);
 		
 		btnSupprimer = new JButton("Supprimer");
+		btnSupprimer.setBackground(Color.YELLOW);
 		panel_3.add(btnSupprimer);
 		
 		btnDetruire = new JButton("Detruire");
+		btnDetruire.setBackground(Color.ORANGE);
 		panel_3.add(btnDetruire);
 		
 		btnQuitter = new JButton("Quitter");
+		btnQuitter.setBackground(Color.RED);
 		panel_3.add(btnQuitter);
 		this.init();
 	}
@@ -296,16 +306,26 @@ public class Fsaisie<E> extends JFrame {
 			switch (typeCombo.getSelectedIndex()) {
 			case 2:
 				text = "Ancienneté";
+				this.entryFeature.setToolTipText(this.tootlipFeature[1]);
 				break;
 			case 3:
 				text = "Salaire";
+				this.entryFeature.setToolTipText(this.tootlipFeature[2]);
 				break;
 			default:				
 				text = "Formation";
+				this.entryFeature.setToolTipText(this.tootlipFeature[0]);
 				break;
 			}
 			lblCaracteristiques.setText(text);
 		}
+	}
+	
+	public void updateNbListeConvives(final int nb) {
+		String str = String.format("Liste des convives :   %d convive", nb);
+		if(nb > 1)
+			str = str + "s";			
+		this.lblListConvives.setText(str);
 	}
 	
 	private void btnAjouter(ActionEvent e) {
@@ -371,6 +391,7 @@ public class Fsaisie<E> extends JFrame {
 	}
 	
 	public void setErrorCaracteristique(boolean _valid) {
+		this.errorFeature.setText("Erreur " + this.lblCaracteristiques.getText());
 		this.errorFeature.setError(_valid);
 	}
 

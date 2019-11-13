@@ -7,6 +7,10 @@ import java.util.TimerTask;
 import javax.swing.JLabel;
 
 public class LabelError extends JLabel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//Variable qui nous servira à compter le nombre de fois ou la méthode blink est relancée
 	private int countBlink;
 	//Constante qui nous donne le nombre de fois que nous voulons faire clignoter notre texte
@@ -26,11 +30,17 @@ public class LabelError extends JLabel{
 	//méthode pour mettre en erreur le texte avec déclenchement du clignotement
 	public void setError(boolean _valid) {
 		if(_valid) {
-			this.setText(this.text);
+			super.setText(this.text);
 			blink();
 		} else {
-			this.setText("");
+			super.setText("");
 		}
+	}
+	
+	@Override
+	public void setText(final String str) {
+		this.text = str;
+		super.setText(str);
 	}
 	
 	private void blink() {
@@ -49,9 +59,9 @@ public class LabelError extends JLabel{
 				public void run() {
 					//On alterne text avec une chaine vide
 					if (countBlink % 2 == 0) {
-						LabelError.this.setText(LabelError.this.text);
+						LabelError.super.setText(LabelError.this.text);
 					} else {
-						LabelError.this.setText("");
+						LabelError.super.setText("");
 					}
 					//La méthode sera relancé au bout de DURATION
 					blink();

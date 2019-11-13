@@ -1,24 +1,16 @@
 package vue;
 
-<<<<<<< HEAD
-import java.awt.Component;
-import java.awt.EventQueue;
-=======
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
->>>>>>> 17614cc0c64b9d09268a15d4ce271ce611ba2b27
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-<<<<<<< HEAD
-=======
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
->>>>>>> 17614cc0c64b9d09268a15d4ce271ce611ba2b27
 
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
@@ -30,14 +22,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-<<<<<<< HEAD
-
-public class Fcalcul extends JFrame {
-
-	private JPanel contentPane;
-	private JTextField textField;
-	private ctrlvue cv;
-=======
 import javax.swing.border.LineBorder;
 
 public class Fcalcul extends JFrame {
@@ -77,13 +61,17 @@ public class Fcalcul extends JFrame {
 		// traiter les messages d'erreur
 		serr = errpb[0];
 		if (!serr.equals(""))
-			this.LabErr.setText(serr);
+			Fcalcul.this.LabErr.setText(serr);
 		else
-			this.LabErr.setText("");
+			Fcalcul.this.LabErr.setText("");
 
 		// mémorisation
 		if (ok == true) {
-			this._lc.addElement( ctrlvue.AfficherPrix(pb) );
+			String[] calc =  this._cv.AfficherPrix(pb).split("\n");
+			for (String str : calc) {
+				this._lc.addElement(str);
+			}
+			//this._lc.addElement( this._cv.AfficherPrix(pb) );
 		}				
 		
 	}
@@ -98,15 +86,10 @@ public class Fcalcul extends JFrame {
 	
 	}
 	
->>>>>>> 17614cc0c64b9d09268a15d4ce271ce611ba2b27
-
 	/**
 	 * Create the frame.
 	 */
-<<<<<<< HEAD
-	public Fcalcul(ctrlvue _cv) {
-		this.cv = _cv;
-=======
+
 	public Fcalcul(ctrlvue cv) {
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -117,9 +100,8 @@ public class Fcalcul extends JFrame {
 		this._cv = cv;
 		
 		setTitle("Fenetre de calcul");
->>>>>>> 17614cc0c64b9d09268a15d4ce271ce611ba2b27
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 800, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
