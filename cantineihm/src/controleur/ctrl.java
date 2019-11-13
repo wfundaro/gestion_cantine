@@ -52,13 +52,12 @@ public class ctrl {
 	
 	public void supprimer(int[] selectIndices) {
 		for (int j = selectIndices.length-1; j >= 0; j--) {
-		    colC.Supprimer(j);
+		    colC.Supprimer(selectIndices[j]);
 		}
 		ajouterAllConviveToVue();
 	}
 
 	public boolean checkNom(final String _nom) {
-		System.out.println(_nom);
 		if(_nom.matches("^[a-zA-Z]{1,20}")) {
 			return true;
 		}

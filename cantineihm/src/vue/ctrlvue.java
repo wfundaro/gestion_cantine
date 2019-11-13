@@ -123,53 +123,10 @@ public class ctrlvue {
 		this._fc.setVisible(true);
 	}
 	
-	public boolean Verifier(
-			String n, 
-			String a, 
-			String sal, 
-			String[] errn, 
-			String[] erra, 
-			String[] errsal) {
-		boolean ok;
-		
-//		errn[0] = ctrl.VerifierNom(n);
-//		erra[0] = ctrl.VerifierAge(a);
-//		errsal[0] = ctrl.VerifierSalaire(sal);
-		
-		ok =
-			(errn[0].equals(""))&&
-			(erra[0].equals(""))&&
-			(errsal[0].equals(""));
-		
-		if (!errn[0].equals(""))
-			this._fh.Ajouter(errn[0]);
-		
-		if (!erra[0].equals(""))
-			this._fh.Ajouter(erra[0]);
-		
-		if (!errsal[0].equals(""))
-			this._fh.Ajouter(errsal[0]);
-		
-		if (ok == false)
-			this.afficherFenHistorique();
-		
-		return (ok);
-	}
-
-
 	public void fSaisieSupprimer(int[] selectIndices) {
 		this._c.supprimer(selectIndices);
 	}
-	
-//	public void afficherConvives(final String[] lc) {
-//		String snb;
-//		this._fs.clearListeConvives();
-//		for (Object item : lc) {
-//			snb = item.toString();
-//			this._fs.addListeConvives(snb);
-//		}
-//	}
-	
+		
 	public void destroyAllItem() {
 		this._fs.clearListeConvives();
 	}
@@ -182,18 +139,14 @@ public class ctrlvue {
 		if (validNom & validPrenom & validAge & validFeature) {
 			this._c.ajouterConvive(_nom, _prenom, _age, _feature, _type);
 		}
-		if(!validNom) {
-			this._fs.setErrorNom(!validNom);
-			
-		}
-		
+		this._fs.setErrorNom(!validNom);
 		this._fs.setErrorPrenom(!validPrenom);
 		this._fs.setErrorAge(!validAge);
 		this._fs.setErrorCaracteristique(!validFeature);
 	}
 	
 	public void addListeConvive(final String _c) {
-		this._fs.addListeConvives(_c);
+		this._fs.ajouterConviveListe(_c);
 	}
 	
 	public void Detruire() {

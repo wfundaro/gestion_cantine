@@ -1,6 +1,7 @@
 package vue;
 
 import java.awt.Desktop.Action;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -184,7 +186,7 @@ public class Fsaisie<E> extends JFrame {
 		gbc_textField_3.gridx = 4;
 		gbc_textField_3.gridy = 1;
 		panel_1.add(entryFeature, gbc_textField_3);
-		entryFeature.setColumns(10);
+		entryFeature.setColumns(12);
 		
 		btnAjouter = new JButton("Ajouter");
 		GridBagConstraints gbc_btnAjouter = new GridBagConstraints();
@@ -192,6 +194,13 @@ public class Fsaisie<E> extends JFrame {
 		gbc_btnAjouter.gridx = 5;
 		gbc_btnAjouter.gridy = 1;
 		panel_1.add(btnAjouter, gbc_btnAjouter);
+		
+		Component verticalStrut = Box.createVerticalStrut(80);
+		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
+		gbc_verticalStrut.insets = new Insets(0, 0, 0, 5);
+		gbc_verticalStrut.gridx = 0;
+		gbc_verticalStrut.gridy = 1;
+		contentPane.add(verticalStrut, gbc_verticalStrut);
 		
 		errorNom = new LabelError("erreur nom");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
@@ -274,12 +283,14 @@ public class Fsaisie<E> extends JFrame {
 		typeCombo.addActionListener(e -> eventCombo(e));	      
 		btnDetruire.addActionListener(e -> Fsaisie.this.cv.Detruire());
 		btnAfficher.addActionListener(this::btnafficher);
-		btnSupprimer.addActionListener(this::supprimer);
+		btnSupprimer.addActionListener(this::supprimerConvive);
 		btnAjouter.addActionListener(this::btnAjouter);
+		//on sélectionne d'entrée l'item 0 dans la comboBox
 		typeCombo.setSelectedIndex(0);
 	}
 	
 	private void eventCombo(ActionEvent e) {
+		//Si l'event sur la comboBox est un changement d'item sélectionné
 		if (e.getActionCommand() == "comboBoxChanged") {
 			String text = "";
 			switch (typeCombo.getSelectedIndex()) {
@@ -298,20 +309,24 @@ public class Fsaisie<E> extends JFrame {
 	}
 	
 	private void btnAjouter(ActionEvent e) {
-		this.cv.ajouterConvive(Fsaisie.this.entryNom.getText(),
-				Fsaisie.this.entryPrenom.getText(),
+		String prenom="";
+		if(Fsaisie.this.entryPrenom.getText().length() > 0) {
+			prenom = Fsaisie.this.entryPrenom.getText().substring(0,1).toUpperCase();
+			if(Fsaisie.this.entryPrenom.getText().length() > 1) {
+				prenom = prenom + Fsaisie.this.entryPrenom.getText().substring(1).toLowerCase();
+			}
+		}
+		this.cv.ajouterConvive(Fsaisie.this.entryNom.getText().toUpperCase(),
+				prenom,
 				Fsaisie.this.entryAge.getText(),
 				Fsaisie.this.entryFeature.getText(),
 				Fsaisie.this.typeCombo.getSelectedIndex());
 	}
 	
-	private void supprimer(ActionEvent e) {
+	private void supprimerConvive(ActionEvent e) {
 		//on vérifie si au moins 1 item est sélectionnée
 		if (listeConvives.getSelectedIndex() > -1) {
 			Fsaisie.this.cv.fSaisieSupprimer(listeConvives.getSelectedIndices());
-//			for (int iterable_element : listeConvives.getSelectedIndicFsaisie.this.errorNomes()) {
-//				System.out.println(iterable_element);
-//			}
 		}
 	}
 	
@@ -320,15 +335,14 @@ public class Fsaisie<E> extends JFrame {
 		this.cv.afficherFenCalcul();
 	}
 	
-	private void closeWindow(WindowEvent e) {
-		this.closeWindow();
-	}
+//	private void closeWindow(WindowEvent e) {
+//		this.closeWindow();
+//	}
 	
 	private void closeWindow() {
 		int choix = JOptionPane.showConfirmDialog(this, "Voulez-vous Quitter ?", "Quitter l'application", JOptionPane.YES_NO_OPTION);
 		if (choix == JOptionPane.YES_OPTION) {
 			Fsaisie.this.cv.Arreter();
-//			System.exit(0);
 		}		
 	}
 	
@@ -336,7 +350,7 @@ public class Fsaisie<E> extends JFrame {
 		this.dlm.clear();
 	}
 	
-	public void addListeConvives(final String _c) {
+	public void ajouterConviveListe(final String _c) {
 		this.dlm.addElement(_c);
 		this.entryNom.setText("");
 		this.entryPrenom.setText("");
