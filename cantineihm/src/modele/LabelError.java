@@ -37,9 +37,13 @@ public class LabelError extends JLabel{
 		}
 	}
 	
+	//surcharge de la méthode setText de la classe mère pour
+	//récupérer le texte et l'affecter dans l'attribut text
 	@Override
 	public void setText(final String str) {
+		//on place le texte dans l'attribut text de la classe LabelError
 		this.text = str;
+		//On appelle la méthode setText de la classe mère
 		super.setText(str);
 	}
 	
