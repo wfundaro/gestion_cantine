@@ -1,5 +1,7 @@
 package modele;
 
+import java.math.BigInteger;
+
 // classe mère de toutes les autres
 // permet de gérer les attributs communs
 // aux classes filles
@@ -734,6 +736,21 @@ public abstract class convive {
 			final String nomdata,
 			final double vmini,
 			final double vmaxi) {
+		String s;
+		
+		s = 
+			nomdata + 
+			" doit etre une valeur decimale comprise entre "+
+			vmini+
+			" et "+
+			vmaxi;
+		return (s);
+	}
+	
+	protected static String Aide(
+			final String nomdata,
+			final double vmini,
+			final BigInteger vmaxi) {
 		String s;
 		
 		s = 

@@ -127,6 +127,7 @@ public class ctrlvue {
 
 	public void destroyAllItem() {
 		this._fs.clearListeConvives();
+		this._fs.updateNbListeConvives(0);
 	}
 	
 	public void updateNbListeConviveToFsaisie(final int nb) {

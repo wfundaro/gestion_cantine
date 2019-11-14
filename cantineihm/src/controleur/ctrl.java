@@ -58,6 +58,7 @@ public class ctrl {
 			break;
 		case 3:
 			colC.ajouterDirecteur(_nom, _prenom, Integer.parseInt(_age), _feature);
+			directeur.AideSalaire();
 			break;
 		default:
 			colC.ajouterStagiaire(_nom, _prenom, Integer.parseInt(_age), _feature);

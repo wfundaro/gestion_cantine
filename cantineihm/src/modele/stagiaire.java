@@ -7,8 +7,10 @@ public class stagiaire extends convive{
 	// **********
 	
 	private static final int TYPE = 4000;
-	private static final int LGFORMATION = 6;
-	private static final String RXFORMATION = "^[a-zA-Z]{2}[0-9]{4}$";
+	private static final int LGMINFORMATION = 1;
+	private static final int LGMAXFORMATION = 10;
+	//private static final String RXFORMATION = "^[a-zA-Z]{2}[0-9]{4}$";
+	private static final String RXFORMATION = "^[a-zA-Z]{1,10}";
 	
 	
 	//	*************************
@@ -111,7 +113,7 @@ public class stagiaire extends convive{
 		s = this.getFormation();
 		if (s == null)
 			s = convive.getIndefini();
-		return(Formatter(s,LGFORMATION));
+		return(Formatter(s,LGMAXFORMATION));
 	}
 
 	public void setModeRechercheFormation(final int m) {
@@ -225,15 +227,15 @@ public class stagiaire extends convive{
 	public static boolean VerifierFormation(
 			final String s,
 			int[] cerr) {
-		return (convive.Verifier(s, LGFORMATION, LGFORMATION, RXFORMATION, cerr));
+		return (convive.Verifier(s, LGMINFORMATION, LGMAXFORMATION, RXFORMATION, cerr));
 	}
 	
 	public static String AideFormation() {
 		return (Aide(
 				"Le nom de la formation", 
-				LGFORMATION, 
-				LGFORMATION,
-				"commencer par 2 lettres suivi de 4 chiffres"));
+				LGMINFORMATION, 
+				LGMAXFORMATION,
+				" caractères alphabétiques"));
 	}
 		
 }
