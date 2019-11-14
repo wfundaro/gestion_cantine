@@ -16,7 +16,7 @@ public class directeur extends convive{
 	
 	private static final int TYPE = 2000;
 	
-	private static final double SALAIREMINI = 1.;
+	private static final double SALAIREMINI = 0.0;
 	//private static final double SALAIREMAXI = 700000.;
 	private static final double SALAIREMAXI = Double.MAX_VALUE;
 	
