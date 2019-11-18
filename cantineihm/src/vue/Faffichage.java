@@ -88,7 +88,7 @@ public class Faffichage extends JFrame {
 			}
 		});
 		BtnEffacer.setToolTipText("Permet d'effacer la liste");
-		BtnEffacer.setBackground(new Color(255, 215, 0));
+		BtnEffacer.setBackground(Color.MAGENTA);
 		PanBoutons.add(BtnEffacer);
 		
 		Component horizontalGlue = Box.createHorizontalGlue();
@@ -104,7 +104,7 @@ public class Faffichage extends JFrame {
 			}
 		});
 		BtnFermer.setToolTipText("Permet de fermer la fenetre");
-		BtnFermer.setBackground(new Color(244, 164, 96));
+		BtnFermer.setBackground(Color.ORANGE);
 		PanBoutons.add(BtnFermer);
 		
 		this._la = new DefaultListModel<Object>();

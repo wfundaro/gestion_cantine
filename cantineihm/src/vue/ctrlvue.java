@@ -133,6 +133,30 @@ public class ctrlvue {
 	public void updateNbListeConviveToFsaisie(final int nb) {
 		this._fs.updateNbListeConvives(nb);
 	}
+	
+	public static String getUnNom() {
+		return (ctrl.getUnNom());
+	}
+	
+	public static String getUnPrenom() {
+		return (ctrl.getUnPrenom());
+	}
+	
+	public static String getUnAge() {
+		return (ctrl.getUnAge());
+	}
+	
+	public static String getUneFormation() {
+		return (ctrl.getUneFormation());
+	}
+	
+	public static String getUneAnnee() {
+		return (ctrl.getUneAnnee());
+	}
+	
+	public static String getUnSalaire() {
+		return (ctrl.getUnSalaire());
+	}
 
 	public void ajouterConvive(final String _nom, final String _prenom, final String _age, final String _feature, final int _type) {
 		boolean validNom = this._c.checkNom(_nom);

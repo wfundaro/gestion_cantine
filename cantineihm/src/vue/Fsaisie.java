@@ -25,6 +25,8 @@ import javax.swing.border.EmptyBorder;
 import modele.LabelError;
 import modele.colconvives;
 import java.awt.Color;
+import javax.swing.border.LineBorder;
+import java.awt.event.ActionListener;
 
 public class Fsaisie extends JFrame {
 
@@ -55,6 +57,39 @@ public class Fsaisie extends JFrame {
 	private final String[] tootlipFeature = {"Entrez une formation entre 1 et 10 caractères",
 			"Entrez l'ancienneté entre 1 et 42",
 			"Entrez le salaire supérieur à 0.0"};
+	private JButton btnRemplir;
+	private Component verticalStrut;
+	
+	
+	private void CBRemplir() {
+		String s;
+		
+		s = ctrlvue.getUnNom();
+		this.entryNom.setText(s);
+		
+		s = ctrlvue.getUnPrenom();
+		this.entryPrenom.setText(s);
+		
+		s = ctrlvue.getUnAge();
+		this.entryAge.setText(s);
+		
+		
+		switch (typeCombo.getSelectedIndex()) {
+		case 2:
+			this.entryFeature.setText(ctrlvue.getUneAnnee());
+			break;
+		case 3:
+			this.entryFeature.setText(ctrlvue.getUnSalaire());
+			break;
+		default:				
+			this.entryFeature.setText(ctrlvue.getUneFormation());
+			break;
+		}
+
+
+	}
+	
+	
 	/**
 	 * Create the frame.
 	 */
@@ -93,6 +128,7 @@ public class Fsaisie extends JFrame {
 		panel.add(lblConvive);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
 		gbc_panel_1.anchor = GridBagConstraints.NORTH;
 		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
@@ -102,9 +138,9 @@ public class Fsaisie extends JFrame {
 		contentPane.add(panel_1, gbc_panel_1);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-		gbl_panel_1.rowHeights = new int[]{0, 0, 0, 0};
+		gbl_panel_1.rowHeights = new int[] {0, 0, 0};
 		gbl_panel_1.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0};
 		panel_1.setLayout(gbl_panel_1);
 		
 		JLabel lblType = new JLabel("Type");
@@ -194,46 +230,60 @@ public class Fsaisie extends JFrame {
 		entryFeature.setColumns(12);
 		
 		btnAjouter = new JButton("Ajouter");
+		btnAjouter.setBackground(Color.GREEN);
 		GridBagConstraints gbc_btnAjouter = new GridBagConstraints();
 		gbc_btnAjouter.insets = new Insets(0, 0, 5, 0);
 		gbc_btnAjouter.gridx = 5;
 		gbc_btnAjouter.gridy = 1;
 		panel_1.add(btnAjouter, gbc_btnAjouter);
 		
-		Component verticalStrut = Box.createVerticalStrut(80);
+		btnRemplir = new JButton("Remplir");
+		btnRemplir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CBRemplir();
+			}
+		});
+		
+		verticalStrut = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
-		gbc_verticalStrut.insets = new Insets(0, 0, 0, 5);
+		gbc_verticalStrut.insets = new Insets(0, 0, 5, 5);
 		gbc_verticalStrut.gridx = 0;
-		gbc_verticalStrut.gridy = 1;
-		contentPane.add(verticalStrut, gbc_verticalStrut);
+		gbc_verticalStrut.gridy = 2;
+		panel_1.add(verticalStrut, gbc_verticalStrut);
 		
 		errorNom = new LabelError("Erreur nom");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel.gridx = 1;
 		gbc_lblNewLabel.gridy = 2;
 		panel_1.add(errorNom, gbc_lblNewLabel);
 		
 		errorPrenom = new LabelError("Erreur prenom");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1.gridx = 2;
 		gbc_lblNewLabel_1.gridy = 2;
 		panel_1.add(errorPrenom, gbc_lblNewLabel_1);
 		
 		errorAge = new LabelError("Erreur age");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_2.gridx = 3;
 		gbc_lblNewLabel_2.gridy = 2;
 		panel_1.add(errorAge, gbc_lblNewLabel_2);
 		
 		errorFeature = new LabelError("Erreur caracteristique");
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
-		gbc_lblNewLabel_3.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_3.gridx = 4;
 		gbc_lblNewLabel_3.gridy = 2;
 		panel_1.add(errorFeature, gbc_lblNewLabel_3);
+		btnRemplir.setBackground(new Color(255, 182, 193));
+		GridBagConstraints gbc_btnRemplir = new GridBagConstraints();
+		gbc_btnRemplir.insets = new Insets(0, 0, 5, 0);
+		gbc_btnRemplir.gridx = 5;
+		gbc_btnRemplir.gridy = 2;
+		panel_1.add(btnRemplir, gbc_btnRemplir);
 		
 		JPanel panel_2 = new JPanel();
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
@@ -258,6 +308,7 @@ public class Fsaisie extends JFrame {
 		
 		this.dlm = new DefaultListModel<String>();
 		listeConvives = new JList<String>(this.dlm);
+		listeConvives.setBorder(new LineBorder(new Color(0, 0, 0)));
 		scrollPane.setViewportView(listeConvives);
 		
 		JPanel panel_3 = new JPanel();
@@ -270,7 +321,7 @@ public class Fsaisie extends JFrame {
 		panel_3.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		btnAfficher = new JButton("Afficher");
-		btnAfficher.setBackground(Color.GREEN);
+		btnAfficher.setBackground(Color.CYAN);
 		btnAfficher.setForeground(Color.BLACK);
 		panel_3.add(btnAfficher);
 		
@@ -354,6 +405,8 @@ public class Fsaisie extends JFrame {
 		this.cv.afficherFenHistorique();
 		this.cv.afficherFenCalcul();
 	}
+	
+	
 	
 //	private void closeWindow(WindowEvent e) {
 //		this.closeWindow();

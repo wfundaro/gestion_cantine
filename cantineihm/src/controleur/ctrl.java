@@ -1,5 +1,7 @@
 package controleur;
 
+import java.util.Random;
+
 import modele.colconvives;
 import modele.convive;
 import modele.directeur;
@@ -8,7 +10,147 @@ import modele.stagiaire;
 import vue.ctrlvue;
 
 public class ctrl {
+	
+	private final static Random rnd = new Random();
+	
+	private final static String[] tnoms= {
+			"NOMUN",
+			"NOMDEUX",
+			"NOMTROIS",
+			"FUNDARO",
+			"BOULLIER",
+			"NOMVINGTETUNCARACTERE",
+			"N0M1",
+			"",
+			"NOMQUATRE",
+			"NOMCINQ",
+			"NOMSIX"
+	};
+	
+	private final static String[] tprenoms= {
+			"PRENOMUN",
+			"PRENOMDEUX",
+			"PRENOMTROIS",
+			"WILLIAM",
+			"MICHAEL",
+			"PRENOMSEIZECARAC",
+			"PREN0M1",
+			"",
+			"PRENOMQUATRE",
+			"PRENOMCINQ",
+			"PRENOMSIX"
+	};
+	
+	private final static String[] tages= {
+			"12",
+			"130",
+			"43",
+			"",
+			"-12",
+			"35",
+			"dddd",
+			"19",
+			"25",
+			"30",
+			"40",
+	};
+	
+	private final static String[] tsalaires= {
+			"12345.67",
+			"23456,89",
+			"25000.00",
+			"30000,50",
+			"36090,12",
+			"40000,34",
+			"45000,34",
+			"-12.3",
+			"-23,4",
+			"",
+			"dddd"
+	};
+	
+	private final static String[] tannees= {
+			"1",
+			"5",
+			"10",
+			"15",
+			"20",
+			"25",
+			"42",
+			"-12.3",
+			"",
+			"dddd"
+	};
+	
+	private final static String[] tformations= {
+			"CDA",
+			"CDI",
+			"F",
+			"FORMATION",
+			"DWWM",
+			"FORMATIONER",
+			"WEBDES",
+			"ARH",
+			"FORMATION1",
+			"",
+	};
+	
+	public static String[] getNoms() {
+		return (tnoms);
+	}
+	
+	public static String[] getPrenoms() {
+		return (tprenoms);
+	}
+	
+	public static String[] getAges() {
+		return (tages);
+	}
+	
+	public static String[] getFormations() {
+		return (tformations);
+	}
+	
+	public static String[] getAnnees() {
+		return (tannees);
+	}
+	
+	public static String[] getSalaires() {
+		return (tsalaires);
+	}
+	
+	private static String TirerSort(final String[] t) {
+		int i;
 		
+		i = rnd.nextInt(t.length);
+		return (t[i]);
+	}
+	
+	public static String getUnNom() {
+		return (TirerSort(tnoms));
+	}
+	
+	public static String getUnPrenom() {
+		return (TirerSort(tprenoms));
+	}
+	
+	public static String getUnAge() {
+		return (TirerSort(tages));
+	}
+	
+	public static String getUneFormation() {
+		return (TirerSort(tformations));
+	}
+	
+	public static String getUneAnnee() {
+		return (TirerSort(tannees));
+	}
+	
+	public static String getUnSalaire() {
+		return (TirerSort(tsalaires));
+	}
+	
+	
 	// collectionneurs de convives (modele)
 	private colconvives colC;
 	// Dialogue avec la VUE au travers du controleur de vue
